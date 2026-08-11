@@ -8,6 +8,8 @@ Sewing Studio is a local-first workspace for measurements, reusable slopers, gar
 
 The interface is a dreamy editorial pattern room: dusty chartreuse, plum-burgundy, blush, peacock, lavender, ochre, warm paper, oversized serif type, rounded work surfaces, and small celestial marks. The application works without an account, analytics service, or hosted database.
 
+**Try the public build:** [Open Sewing Studio on GitHub Pages](https://shivanigupta-dev.github.io/sewing-studio/). Its browser data is separate from every local installation, so use JSON export/import when moving a workspace between them.
+
 > **Development disclosure:** this is openly a vibe-coded project. Shivani Gupta directs the product, sewing workflow, information architecture, and visual judgment; AI-assisted development tools have contributed implementation, testing, and documentation. Generated code is reviewed and tested, but the pattern engine remains a drafting aid—not a substitute for a muslin or advice from an experienced pattern maker.
 
 ![Synthetic Sewing Studio workspace](docs/screenshots/sample-workspace.png)
