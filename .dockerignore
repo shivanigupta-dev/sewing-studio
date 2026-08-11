@@ -1,0 +1,23 @@
+.git
+.github
+.next
+out
+node_modules
+coverage
+.env
+.env.*
+!.env.example
+dist
+outputs
+work
+personal
+*.sqlite
+*.sqlite-*
+*.db
+*.log
+*.pem
+*.key
+*backup*.json
+*.local.json
+.DS_Store
+Start Sewing Studio.command

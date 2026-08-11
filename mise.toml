@@ -1,0 +1,33 @@
+[tools]
+node = "24.14.0"
+pnpm = "10.12.4"
+
+[tasks.setup-dev]
+description = "Install the exact dependencies required for local development"
+run = "pnpm install --frozen-lockfile"
+sources = ["package.json", "pnpm-lock.yaml"]
+outputs = ["node_modules/.modules.yaml"]
+
+[tasks.dev]
+description = "Start the private loopback-only Sewing Studio server"
+depends = ["setup-dev"]
+run = "pnpm dev --port 3000"
+
+[tasks.check]
+description = "Run type checks, lint, production build, and automated tests"
+depends = ["setup-dev"]
+run = "pnpm check"
+
+[tasks.verify-localhost]
+description = "Smoke-test an already-running local Sewing Studio without changing its data"
+run = "pnpm verify:localhost"
+
+[tasks.verify-dev]
+description = "Start a temporary local server, verify static application behavior, then stop it"
+depends = ["setup-dev"]
+run = "pnpm verify:dev"
+
+[tasks.agent-check]
+description = "Run the complete agent development gate, including localhost fidelity"
+depends = ["setup-dev"]
+run = "pnpm agent:check"

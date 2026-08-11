@@ -1,0 +1,51 @@
+{
+  "name": "sewing-studio",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "start": "serve out --listen tcp://[::]:3000",
+    "test": "node --test tests/rendered-html.test.mjs && node --experimental-strip-types --test tests/backup.test.ts tests/markdown.test.ts tests/pattern.test.ts tests/workspace.test.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "audit:prod": "pnpm audit --prod",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "verify:localhost": "node scripts/verify-localhost.mjs",
+    "verify:dev": "node scripts/verify-dev.mjs",
+    "agent:check": "pnpm check && pnpm verify:dev"
+  },
+  "dependencies": {
+    "next": "16.3.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.3.0",
+    "serve": "14.2.4",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "nanoid": "3.3.17",
+      "postcss": "8.5.26",
+      "sharp": "0.35.3"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
+  "type": "module"
+}

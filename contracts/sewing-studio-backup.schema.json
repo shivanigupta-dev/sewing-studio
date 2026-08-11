@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sewing-studio:schema:backup:v1",
+  "title": "Sewing Studio backup",
+  "description": "Portable, re-importable local-first sewing workspace backup.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "schemaVersion", "appVersion", "exportedAt", "data"],
+  "properties": {
+    "format": { "const": "sewing-planner-backup" },
+    "schemaVersion": { "const": 1 },
+    "appVersion": { "type": "string", "minLength": 1 },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "data": { "$ref": "#/$defs/workspace" }
+  },
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "required": ["schemaVersion", "createdAt", "updatedAt"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$" },
+    "measurement": {
+      "type": "object",
+      "required": ["id", "label", "value", "unit", "hint"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": "string" },
+        "unit": { "enum": ["in", "cm"] },
+        "canonicalMm": { "type": "number", "exclusiveMinimum": 0 },
+        "sourceUnit": { "enum": ["in", "cm"] },
+        "hint": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "task": {
+      "allOf": [
+        { "$ref": "#/$defs/metadata" },
+        {
+          "type": "object",
+          "required": ["id", "parentType", "parentId", "phase", "title", "instruction", "acceptance", "status"],
+          "properties": {
+            "id": { "$ref": "#/$defs/id" },
+            "parentType": { "enum": ["project", "sloper"] },
+            "parentId": { "$ref": "#/$defs/id" },
+            "phase": { "type": "string" },
+            "title": { "type": "string", "minLength": 1 },
+            "instruction": { "type": "string" },
+            "acceptance": { "type": "array", "items": { "type": "string" } },
+            "dependsOn": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+            "status": { "enum": ["ready", "in-progress", "blocked", "done"] },
+            "note": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "projectChild": {
+      "allOf": [
+        { "$ref": "#/$defs/metadata" },
+        { "type": "object", "required": ["id", "projectId"], "properties": { "id": { "$ref": "#/$defs/id" }, "projectId": { "$ref": "#/$defs/id" } } }
+      ]
+    },
+    "project": {
+      "allOf": [
+        { "$ref": "#/$defs/metadata" },
+        {
+          "type": "object",
+          "required": ["id", "title", "garmentType", "lifecycle", "measurementProfileId", "baseSloperIds", "tasks", "measurements", "fittingLog", "patternVersions", "patternNotes", "muslins", "references", "fabrics", "notions"],
+          "properties": {
+            "id": { "$ref": "#/$defs/id" },
+            "title": { "type": "string", "minLength": 1 },
+            "garmentType": { "enum": ["top", "dress", "pants", "skirt", "jacket", "other"] },
+            "lifecycle": { "enum": ["planning", "active", "paused", "complete", "archived"] },
+            "measurementProfileId": { "type": ["string", "null"] },
+            "baseSloperIds": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+            "tasks": { "type": "array", "items": { "$ref": "#/$defs/task" } },
+            "measurements": { "type": "array", "items": { "$ref": "#/$defs/measurement" } },
+            "fittingLog": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "patternVersions": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "patternNotes": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "muslins": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "references": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "fabrics": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } },
+            "notions": { "type": "array", "items": { "$ref": "#/$defs/projectChild" } }
+          }
+        }
+      ]
+    },
+    "workspace": {
+      "type": "object",
+      "required": ["workspaceVersion", "unitSystem", "activeProjectId", "projects", "measurementProfiles", "slopers", "techniques", "sharedNotes", "sampleData"],
+      "properties": {
+        "workspaceVersion": { "const": 3 },
+        "unitSystem": { "enum": ["metric", "imperial"] },
+        "activeProjectId": { "type": ["string", "null"] },
+        "projects": { "type": "array", "items": { "$ref": "#/$defs/project" } },
+        "measurementProfiles": { "type": "array", "items": { "type": "object" } },
+        "slopers": { "type": "array", "items": { "type": "object" } },
+        "techniques": { "type": "array", "items": { "type": "object" } },
+        "sharedNotes": { "type": "array", "items": { "type": "object" } },
+        "sampleData": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

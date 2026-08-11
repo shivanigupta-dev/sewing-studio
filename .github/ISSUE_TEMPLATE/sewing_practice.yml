@@ -1,0 +1,48 @@
+name: Sewing-practice review
+description: Suggest a cited drafting, fitting, or construction refinement
+title: "[Sewing review]: "
+labels: [sewing-review]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use published references and synthetic examples. Sewing Studio is a drafting aid and should not encode uncited fitting assumptions as universal rules.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Measurements
+        - Bodice sloper
+        - Darts
+        - Neckline or armhole
+        - Ease and balance
+        - Muslin fitting
+        - Construction order
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Current behavior or guidance
+    validations:
+      required: true
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommended change
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Link books, standards, courses, or other authoritative references when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: synthetic_case
+    attributes:
+      label: Synthetic test case
+      description: Describe non-personal measurements or a reproducible fitting case.
